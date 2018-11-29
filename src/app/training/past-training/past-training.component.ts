@@ -37,7 +37,9 @@ this.exCHangesSubscription = this.trainingService.finishedExerciseChanged.subscr
   }
 
   ngOnDestroy(){
-this.exCHangesSubscription.unsubscribe()
+    if(this.exCHangesSubscription){
+      this.exCHangesSubscription.unsubscribe()
+    }
   }
 
 }

@@ -32,7 +32,9 @@ this.authService.registerUser({
   }
 
   ngOnDestroy(){
-    this.loadingSubs.unsubscribe()
+    if(this.loadingSubs){
+      this.loadingSubs.unsubscribe()
+    }
   }
 
 }

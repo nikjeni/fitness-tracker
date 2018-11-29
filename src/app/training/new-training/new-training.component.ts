@@ -39,8 +39,12 @@ this.trainingService.startExercise(form.value.exercise)
   }
 
   ngOnDestroy(){
-this.exerciseSubscription.unsubscribe()
-this.lodingSubs.unsubscribe()
+    if(this.exerciseSubscription){
+      this.exerciseSubscription.unsubscribe()
+    }
+    if(this.lodingSubs){
+      this.lodingSubs.unsubscribe()
+    }
   }
 
 }

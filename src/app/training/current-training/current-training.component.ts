@@ -13,7 +13,9 @@ export class CurrentTrainingComponent implements OnInit {
   progress = 0;
   timer:any = 0;
 
-  constructor(private dialog:MatDialog,private trainingService:TrainigService) { }
+  constructor(private dialog:MatDialog,private trainingService:TrainigService) {
+    console.log('current comp')
+   }
 
   ngOnInit() {
   this.startOrResumeTimer()
