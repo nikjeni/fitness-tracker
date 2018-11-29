@@ -1,21 +1,46 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { TrainigService } from '../training.service';
+import { Exercise } from '../exercise.model';
+import { NgForm } from '@angular/forms';
+import { Subscription } from 'rxjs'
+import { UIService } from 'src/app/shared/ui.service';
 
 @Component({
   selector: 'app-new-training',
   templateUrl: './new-training.component.html',
   styleUrls: ['./new-training.component.css']
 })
-export class NewTrainingComponent implements OnInit {
+export class NewTrainingComponent implements OnInit,OnDestroy {
 
-  @Output() trainingStart = new EventEmitter<void>();
+  exercises:Exercise[];
+  exerciseSubscription:Subscription;
+  lodingSubs:Subscription;
+  isLoading = false;
 
-  constructor() { }
+  constructor(private trainingService:TrainigService,private uiService:UIService) { }
 
   ngOnInit() {
+    this.lodingSubs = this.uiService.loadingStateChanged.subscribe(isLOading =>{
+      this.isLoading = isLOading;
+    })
+
+  this.exerciseSubscription =  this.trainingService.exercisesChanges.subscribe(exercise =>{
+      this.exercises = exercise;
+    })
+    this.fetchExercises()
   }
 
-  onStartTraining() {
-this.trainingStart.emit()
+  onStartTraining(form:NgForm) {
+this.trainingService.startExercise(form.value.exercise)
+  }
+
+  fetchExercises(){
+    this.trainingService.fetchAvailableExcercises();
+  }
+
+  ngOnDestroy(){
+this.exerciseSubscription.unsubscribe()
+this.lodingSubs.unsubscribe()
   }
 
 }
