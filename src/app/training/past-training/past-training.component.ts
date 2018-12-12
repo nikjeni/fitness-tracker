@@ -1,45 +1,39 @@
-import { Component, OnInit, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { MatTableDataSource, MatSort, MatPaginator } from '@angular/material';
 import { Exercise } from '../exercise.model';
 import { TrainigService } from '../training.service';
 import { Subscription } from 'rxjs'
+import { Store } from '@ngrx/store';
+import * as fromTraining from '../training.reducer';
 
 @Component({
   selector: 'app-past-training',
   templateUrl: './past-training.component.html',
   styleUrls: ['./past-training.component.css']
 })
-export class PastTrainingComponent implements OnInit, AfterViewInit,OnDestroy {
- 
-  displayedColumns =['date','name','duration','calories','state']
+export class PastTrainingComponent implements OnInit, AfterViewInit {
+
+  displayedColumns = ['date', 'name', 'duration', 'calories', 'state']
   dataSource = new MatTableDataSource<Exercise>();
-  private exCHangesSubscription:Subscription;
 
-  @ViewChild(MatSort) sort : MatSort;
-  @ViewChild(MatPaginator) paginator : MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  constructor(private trainingService:TrainigService) { }
+  constructor(private trainingService: TrainigService, private store: Store<fromTraining.State>) { }
 
   ngOnInit() {
-this.exCHangesSubscription = this.trainingService.finishedExerciseChanged.subscribe((exercises:Exercise[]) =>{
+    this.store.select(fromTraining.getFinishedEcercises).subscribe((exercises: Exercise[]) => {
       this.dataSource.data = exercises;
     })
-   this.trainingService.fetchCompletedOrCancelledExercises()
+    this.trainingService.fetchCompletedOrCancelledExercises()
   }
 
-  ngAfterViewInit(){
+  ngAfterViewInit() {
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
   }
 
-  doFilter(filterValue:string){
+  doFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
-
-  ngOnDestroy(){
-    if(this.exCHangesSubscription){
-      this.exCHangesSubscription.unsubscribe()
-    }
-  }
-
 }
