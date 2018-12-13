@@ -5,12 +5,12 @@
 export const environment = {
   production: false,
   firebase: {
-    apiKey: "AIzaSyARDjderLTh9C3fub3TRD8bXIZUqL2wvvE",
-    authDomain: "nikat-fiteness-tracker.firebaseapp.com",
-    databaseURL: "https://nikat-fiteness-tracker.firebaseio.com",
-    projectId: "nikat-fiteness-tracker",
-    storageBucket: "nikat-fiteness-tracker.appspot.com",
-    messagingSenderId: "196043335725"
+    apiKey: "AIzaSyAEO9tyTO0-2DPFrz6q-Zf-TQ6sudRTPFQ",
+    authDomain: "nk-fitness-app.firebaseapp.com",
+    databaseURL: "https://nk-fitness-app.firebaseio.com",
+    projectId: "nk-fitness-app",
+    storageBucket: "",
+    messagingSenderId: "414368215811"
   }
 };
 

@@ -30,6 +30,7 @@ export class TrainigService {
                     })
                 })
             ).subscribe((exercises: Exercise[]) => {
+                console.log(exercises)
                 this.uiService.loadingStateChanged.next(false)
                 this.store.dispatch(new Trainig.SetAvailableTrainings(exercises))
             }, error => {
@@ -61,7 +62,6 @@ export class TrainigService {
                     state: 'cancelled'
                 }
             );
-            this.addDataToDatabase({ ...ex, date: new Date(), state: 'completed' });
         })
         this.store.dispatch(new Trainig.StopTraining())
     }
